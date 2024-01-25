@@ -51,16 +51,59 @@
         .login-button:hover {
             background-color: #45a049;
         }
+
+        .error-message {
+            color: #ff0000;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <form action="#" method="post">
-            <input class="login-input" type="text" name="email" placeholder="Correo Electrónico" required>
-            <input class="login-input" type="text" name="password" placeholder="Contraseña" required>
+        <form id="loginForm" action="#" method="post" onsubmit="return validateForm()">
+            <!-- Input para el correo electrónico -->
+            <input class="login-input" type="email" name="email" id="email" placeholder="Correo Electrónico" required>
+            <div id="emailError" class="error-message"></div>
+
+            <!-- Input para la contraseña -->
+            <input class="login-input" type="password" name="password" id="password" placeholder="Contraseña" required>
+            <div id="passwordError" class="error-message"></div>
+
+            <!-- Botón de inicio de sesión -->
             <button type="submit" class="login-button">Iniciar sesión</button>
         </form>
     </div>
+
+    <script>
+        // Función para validar el formulario
+        function validateForm() {
+            // Resetear mensajes de error
+            document.getElementById('emailError').innerHTML = '';
+            document.getElementById('passwordError').innerHTML = '';
+
+            // Obtener los valores de los campos
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            // Expresión regular para validar el formato del correo electrónico
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Validar el correo electrónico
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').innerHTML = 'Formato de correo electrónico no válido';
+                return false;
+            }
+
+            // Validar la longitud de la contraseña
+            if (password.length < 8) {
+                document.getElementById('passwordError').innerHTML = 'La contraseña debe tener al menos 8 caracteres';
+                return false;
+            }
+
+            // El formulario es válido
+            return true;
+        }
+    </script>
 </body>
 </html>
